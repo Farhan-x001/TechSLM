@@ -1,0 +1,161 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                   TechSLM: M1 Mac Quick Reference Card                     ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📁 PROJECT LOCATION
+─────────────────────────────────────────────────────────────────────────────
+  /Users/farhanahmed/Desktop/agents/TechSLM/
+
+🚀 QUICK START (Copy & Paste)
+─────────────────────────────────────────────────────────────────────────────
+  cd /Users/farhanahmed/Desktop/agents/TechSLM
+  pip install -r requirements.txt
+  python3 train_slm.py
+
+📊 THE 4 TASKS
+─────────────────────────────────────────────────────────────────────────────
+  Task 1: Data Preprocessing    → task1_data_preprocessing.py
+  Task 2: Model Architecture    → task2_model_architecture.py
+  Task 3: Training Loop         → task3_training_loop.py (5-10 min)
+  Task 4: FastAPI Deployment    → task4_fastapi_deployment.py
+
+🎯 RUN OPTIONS
+─────────────────────────────────────────────────────────────────────────────
+  Run All with Prompts:
+    python3 train_slm.py
+
+  Auto-Run All Tasks:
+    python3 quickstart.py
+
+  Run Individual Tasks:
+    python3 task1_data_preprocessing.py
+    python3 task2_model_architecture.py
+    python3 task3_training_loop.py --epochs 10
+    python3 task4_fastapi_deployment.py
+
+  Check Environment:
+    python3 train_slm.py --check
+
+📡 API ENDPOINTS (After Task 4)
+─────────────────────────────────────────────────────────────────────────────
+  Health Check:
+    curl http://localhost:8000/health
+
+  Model Info:
+    curl http://localhost:8000/info
+
+  Generate Text:
+    curl -X POST http://localhost:8000/generate \
+      -H "Content-Type: application/json" \
+      -d '{"prompt":"AI","max_length":50}'
+
+  Interactive Docs:
+    http://localhost:8000/docs
+
+📈 MODEL SPECS
+─────────────────────────────────────────────────────────────────────────────
+  Parameters:       1,310,976 (1.3M)
+  Memory:           5 MB weights
+  RAM During Train: 2-3 GB
+  Training Time:    2-5 minutes (5 epochs)
+  Inference Speed:  <100ms per generation
+  Device:           Apple M1 GPU (MPS)
+  Architecture:     4-layer Transformer
+  Context Window:   64 tokens
+  Vocabulary:       256 characters
+
+⚙️ CUSTOMIZE TRAINING
+─────────────────────────────────────────────────────────────────────────────
+  Edit task3_training_loop.py:
+    batch_size = 32          # Reduce if OOM
+    learning_rate = 5e-4
+    max_epochs = 5
+    weight_decay = 0.01
+
+  Edit task2_model_architecture.py:
+    n_embd = 128             # Embedding dimension
+    n_head = 4               # Attention heads
+    n_layer = 4              # Transformer blocks
+    block_size = 64          # Context window
+
+  Replace Training Data:
+    nano tech_news.txt       # Edit your own data
+
+📊 EXPECTED OUTPUT
+─────────────────────────────────────────────────────────────────────────────
+  Task 1 (30 sec):    ✓ Vocabulary: 256, Batches: ~78
+  Task 2 (10 sec):    ✓ Parameters: 1,310,976
+  Task 3 (2-5 min):   ✓ Loss: 5.34 → 2.50 (decreasing = good!)
+  Task 4 (starts):    ✓ API on http://localhost:8000
+
+🐛 TROUBLESHOOTING
+─────────────────────────────────────────────────────────────────────────────
+  MPS Not Available?
+    pip install --upgrade torch
+
+  Out of Memory?
+    Reduce batch_size in task3_training_loop.py (32 → 16 → 8)
+
+  Training Too Slow?
+    Check: python3 -c "import torch; print(torch.backends.mps.is_available())"
+    Should return: True (if False, reinstall torch)
+
+  Port 8000 Already in Use?
+    lsof -ti:8000 | xargs kill -9
+
+📚 DOCUMENTATION
+─────────────────────────────────────────────────────────────────────────────
+  Full Guide:       README.md
+  Setup Details:    SETUP_GUIDE.md
+  Quick Summary:    QUICKSTART.md (this file)
+  Entry Script:     train_slm.py
+  Quick Auto-Run:   quickstart.py
+
+✅ SUCCESS CHECKLIST
+─────────────────────────────────────────────────────────────────────────────
+  □ PyTorch installed (check: python3 -c "import torch; print(torch.__version__)")
+  □ Dependencies installed (check: pip list | grep torch)
+  □ Task 1 completes (creates tech_news.txt)
+  □ Task 2 completes (shows ~1.3M parameters)
+  □ Task 3 completes (saves tech_slm_model.pth)
+  □ Task 4 starts (API on localhost:8000)
+  □ Can generate text (try /docs endpoint)
+
+🎓 LEARNING CONCEPTS
+─────────────────────────────────────────────────────────────────────────────
+  Transformer:      https://arxiv.org/abs/1706.03762
+  NanoGPT:          https://github.com/karpathy/nanoGPT
+  PyTorch MPS:      https://pytorch.org/docs/stable/mps.html
+  FastAPI:          https://fastapi.tiangolo.com
+
+💡 TIPS
+─────────────────────────────────────────────────────────────────────────────
+  • First generation is slower (model warmup) - subsequent ones are fast
+  • Expand tech_news.txt before retraining for better results
+  • Use --epochs 1 for quick testing
+  • Check GPU usage while training with: top -o %CPU
+  • Save API responses: curl ... > output.json
+  • Fine-tune on domain-specific data for better results
+
+🔄 WORKFLOW
+─────────────────────────────────────────────────────────────────────────────
+  1. Install dependencies      (1 min)
+  2. Run tasks 1-3 with train_slm.py  (10 min)
+  3. Start API with task 4     (instant)
+  4. Test /generate endpoint   (instant)
+  5. Customize & retrain       (5-30 min depending on data)
+
+📦 GENERATED FILES (After Running)
+─────────────────────────────────────────────────────────────────────────────
+  tech_news.txt              Sample training data (created by Task 1)
+  tech_slm_model.pth         Trained model weights (created by Task 3)
+  training_metrics.json      Training statistics (created by Task 3)
+  checkpoint.pth             Backup if training interrupted
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  Start here: python3 train_slm.py                                         ║
+║  Or quick run: python3 quickstart.py                                      ║
+║  Then visit: http://localhost:8000/docs                                   ║
+║                                                                            ║
+║  Good luck! 🚀                                                             ║
+╚════════════════════════════════════════════════════════════════════════════╝

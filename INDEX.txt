@@ -1,0 +1,419 @@
+===============================================================================
+                    TechSLM PROJECT - FILE INDEX & GUIDE
+===============================================================================
+
+📂 PROJECT: /Users/farhanahmed/Desktop/agents/TechSLM/
+
+===============================================================================
+🚀 START HERE
+===============================================================================
+
+Choose your preferred way to get started:
+
+  1. QUICKEST START (Recommended)
+     ├─ Command: python3 quickstart.py
+     ├─ Time: ~10 minutes
+     └─ What: Auto-runs all 4 tasks with minimal interaction
+
+  2. GUIDED START (Best for Learning)
+     ├─ Command: python3 train_slm.py
+     ├─ Time: ~15 minutes
+     └─ What: Runs tasks with prompts between each, lets you observe progress
+
+  3. CHECK ENVIRONMENT FIRST
+     ├─ Command: python3 train_slm.py --check
+     ├─ Time: ~5 seconds
+     └─ What: Verifies Python, PyTorch, and MPS support before running
+
+===============================================================================
+📁 FILE ORGANIZATION
+===============================================================================
+
+ENTRY POINTS (Run These)
+────────────────────────
+  ✓ train_slm.py
+    - Main entry point with full options
+    - Run all tasks or specific ones
+    - Usage: python3 train_slm.py [--task N] [--epochs N]
+
+  ✓ quickstart.py  
+    - Auto-run mode (minimal prompts)
+    - Fastest way to get started
+    - Usage: python3 quickstart.py
+
+  ✓ requirements.txt
+    - Python package dependencies
+    - Install: pip install -r requirements.txt
+
+CORE MODULES (The 4 Tasks)
+──────────────────────────
+  ✓ task1_data_preprocessing.py
+    - Task 1: Data Loading & Tokenization
+    - Creates tech_news.txt sample data
+    - Sets up PyTorch DataLoader
+    - Usage: python3 task1_data_preprocessing.py
+    - Time: ~30 seconds
+    - Output: Character-level tokenizer + DataLoader
+
+  ✓ task2_model_architecture.py
+    - Task 2: MiniTransformer Architecture
+    - Defines 4-layer transformer model
+    - Tests forward pass
+    - Shows parameter count (~1.3M)
+    - Usage: python3 task2_model_architecture.py
+    - Time: ~10 seconds
+    - Output: Model architecture validation
+
+  ✓ task3_training_loop.py
+    - Task 3: Training with M1 Optimization
+    - Trains model with AdamW optimizer
+    - Saves checkpoints every 500 steps
+    - Exports model to tech_slm_model.pth
+    - Usage: python3 task3_training_loop.py
+    - Time: 2-5 minutes (5 epochs)
+    - Output: Trained model + metrics JSON
+
+  ✓ task4_fastapi_deployment.py
+    - Task 4: FastAPI REST API Server
+    - Loads trained model
+    - Exposes /generate endpoint
+    - Provides interactive API docs
+    - Usage: python3 task4_fastapi_deployment.py
+    - Time: Runs indefinitely (Ctrl+C to stop)
+    - Output: API on http://localhost:8000
+
+DOCUMENTATION (Read These)
+──────────────────────────
+  ✓ README.md
+    - Complete project documentation
+    - Full feature list and explanations
+    - Performance expectations
+    - Customization ideas
+    - Learning resources
+    - Read: Less urgent, but comprehensive
+
+  ✓ SETUP_GUIDE.md
+    - Step-by-step setup instructions
+    - Expected output for each task
+    - API testing examples
+    - Troubleshooting guide
+    - Read: If having issues or need details
+
+  ✓ QUICKSTART.md
+    - Project summary
+    - Architecture overview
+    - Quick reference commands
+    - Performance metrics
+    - Read: For quick understanding
+
+  ✓ QUICK_REFERENCE.txt
+    - ASCII art command cheat sheet
+    - One-page reference
+    - All common commands
+    - Read: While working on the project
+
+===============================================================================
+⚡ QUICK COMMANDS
+===============================================================================
+
+Setup (Do This First)
+─────────────────────
+  cd /Users/farhanahmed/Desktop/agents/TechSLM
+  pip install -r requirements.txt
+
+Run Everything
+───────────────
+  python3 train_slm.py                    # Guided mode (prompts between tasks)
+  python3 quickstart.py                   # Auto mode (minimal interaction)
+
+Run Individual Tasks
+─────────────────────
+  python3 task1_data_preprocessing.py     # Task 1 only
+  python3 task2_model_architecture.py     # Task 2 only
+  python3 task3_training_loop.py          # Task 3 only (5 epochs)
+  python3 task4_fastapi_deployment.py     # Task 4 only (API server)
+
+Custom Training
+────────────────
+  python3 train_slm.py --task 3 --epochs 10         # Train for 10 epochs
+  python3 train_slm.py --task 3 --epochs 1          # Quick test (1 epoch)
+  python3 train_slm.py --check                      # Check environment
+
+API Testing (After Task 4)
+──────────────────────────
+  curl http://localhost:8000/health                  # Health check
+  curl http://localhost:8000/info                    # Model info
+  curl -X POST http://localhost:8000/generate \      # Generate text
+    -H "Content-Type: application/json" \
+    -d '{"prompt":"AI","max_length":50}'
+  
+  # Or open in browser:
+  http://localhost:8000/docs                         # Interactive API docs
+
+===============================================================================
+📊 WHAT EACH FILE DOES
+===============================================================================
+
+train_slm.py
+────────────
+  Purpose: Main entry point to orchestrate all 4 tasks
+  Options:
+    --task 1|2|3|4   Run specific task
+    --epochs N       Number of training epochs (task 3 only)
+    --check          Check environment and exit
+  Examples:
+    python3 train_slm.py                # Run all tasks
+    python3 train_slm.py --task 3       # Run task 3 only
+    python3 train_slm.py --task 3 --epochs 20  # Train for 20 epochs
+
+quickstart.py
+─────────────
+  Purpose: Auto-run all 4 tasks with minimal user interaction
+  How: Runs commands in sequence, installs dependencies, starts API
+  Use when: You want the fastest path from zero to working model
+
+task1_data_preprocessing.py
+──────────────────────────
+  What it does:
+    1. Creates tech_news.txt (sample data)
+    2. Builds CharTokenizer (character → token)
+    3. Creates TechNewsDataset (PyTorch Dataset)
+    4. Sets up DataLoader (efficient batch loading)
+  Output:
+    - tech_news.txt file (training data)
+    - Tokenizer vocabulary (256 characters)
+    - DataLoader ready for task 3
+  Time: ~30 seconds
+
+task2_model_architecture.py
+──────────────────────────
+  What it does:
+    1. Defines MultiHeadAttention class
+    2. Defines FeedForward network
+    3. Defines TransformerBlock
+    4. Defines MiniTransformer model
+    5. Tests forward pass
+  Output:
+    - Model architecture validation
+    - Parameter count display
+    - Memory estimate
+  Time: ~10 seconds
+
+task3_training_loop.py
+─────────────────────
+  What it does:
+    1. Loads data from task 1
+    2. Creates model from task 2
+    3. Runs training loop
+    4. Saves checkpoints every 500 steps
+    5. Saves final model to tech_slm_model.pth
+    6. Exports metrics to training_metrics.json
+  Output:
+    - tech_slm_model.pth (trained model weights)
+    - training_metrics.json (loss history, stats)
+    - checkpoint.pth (if interrupted)
+  Time: 2-5 minutes for 5 epochs
+
+task4_fastapi_deployment.py
+───────────────────────────
+  What it does:
+    1. Loads tech_slm_model.pth
+    2. Creates FastAPI application
+    3. Starts API server on localhost:8000
+    4. Exposes endpoints:
+       - GET /health          (server status)
+       - GET /info            (model info)
+       - POST /generate       (text generation)
+       - POST /batch-generate (multi-prompt)
+  Output:
+    - Running API server
+    - Interactive docs at /docs
+    - Curl-able endpoints
+  Time: Runs continuously (Ctrl+C to stop)
+
+requirements.txt
+────────────────
+  Lists Python packages to install:
+    torch       (PyTorch - ML framework)
+    numpy       (Numerical computing)
+    fastapi     (Web framework)
+    uvicorn     (ASGI server)
+    pydantic    (Data validation)
+  Install: pip install -r requirements.txt
+
+===============================================================================
+🗂️ GENERATED FILES (After Running)
+===============================================================================
+
+tech_news.txt
+─────────────
+  Created by: task1_data_preprocessing.py
+  Purpose: Sample training data
+  Content: Repeated tech news about M1, AI, chips
+  Size: ~5KB (sample), can be replaced with real data
+  Modify: Edit in any text editor before retraining
+
+tech_slm_model.pth
+──────────────────
+  Created by: task3_training_loop.py
+  Purpose: Trained model weights
+  Content: PyTorch model state dictionary
+  Size: ~5 MB
+  Used by: task4_fastapi_deployment.py (loads for inference)
+  Keep: Don't delete unless retraining
+
+training_metrics.json
+─────────────────────
+  Created by: task3_training_loop.py
+  Purpose: Training statistics
+  Content: Loss values, final metrics, model info
+  Size: ~1 KB
+  Use: For analyzing training progress
+  Format: JSON (human-readable)
+
+checkpoint.pth
+───────────────
+  Created by: task3_training_loop.py (if interrupted)
+  Purpose: Backup checkpoint for resuming training
+  Content: Model state, optimizer state, step count
+  Use: To resume interrupted training
+  Note: Automatically saved if Ctrl+C pressed during training
+
+===============================================================================
+🎯 TYPICAL WORKFLOW
+===============================================================================
+
+1. INSTALL (1 minute)
+   └─ cd /Users/farhanahmed/Desktop/agents/TechSLM
+   └─ pip install -r requirements.txt
+
+2. RUN TASKS (10 minutes)
+   └─ python3 train_slm.py
+      or
+   └─ python3 quickstart.py
+
+3. TEST API (2 minutes)
+   └─ python3 task4_fastapi_deployment.py
+   └─ Open: http://localhost:8000/docs
+
+4. GENERATE TEXT (instant)
+   └─ Use /generate endpoint in browser or curl
+
+5. CUSTOMIZE (optional)
+   └─ Edit tech_news.txt with your data
+   └─ python3 train_slm.py --task 3 --epochs 10
+
+6. DEPLOY (optional)
+   └─ Move API code to production server
+   └─ Use load balancer for multiple instances
+
+===============================================================================
+🔍 UNDERSTANDING THE ARCHITECTURE
+===============================================================================
+
+The Project has 4 Interconnected Layers:
+
+Layer 1: DATA PIPELINE (task1_data_preprocessing.py)
+  Input: Raw text (tech_news.txt)
+  Process: Tokenization → Dataset → DataLoader
+  Output: Batches of token sequences
+  Purpose: Feed data efficiently to GPU
+
+Layer 2: MODEL (task2_model_architecture.py)
+  Input: Token sequences (batch_size, seq_len)
+  Process: Embeddings → Attention → FFN → Output
+  Output: Logits (vocab_size predictions)
+  Purpose: Predict next token
+
+Layer 3: TRAINING (task3_training_loop.py)
+  Input: Model + Data
+  Process: Forward → Loss → Backward → Optimize
+  Output: Trained weights (tech_slm_model.pth)
+  Purpose: Learn from examples
+
+Layer 4: INFERENCE (task4_fastapi_deployment.py)
+  Input: Trained model + Prompt
+  Process: Load model → Generate tokens → Decode
+  Output: Generated text
+  Purpose: Use model in production
+
+===============================================================================
+💡 KEY CONCEPTS
+===============================================================================
+
+MPS (Metal Performance Shaders)
+  - GPU acceleration on Apple M1
+  - Provided by PyTorch
+  - ~3-5x faster than CPU
+  - Checked via: torch.backends.mps.is_available()
+
+Character-Level Tokenization
+  - Splits text into individual characters
+  - Vocabulary size = number of unique chars (usually ~256)
+  - Minimal memory footprint
+  - Can generate any character sequence
+
+Transformer Architecture
+  - Attention: Each token "attends to" all other tokens
+  - Feed-Forward: Per-position dense network
+  - Positional Encoding: Tells model about token positions
+  - Layer Stacking: Multiple blocks for depth
+
+Model Parameters
+  - Embedding matrix: vocab_size × n_embd = 256 × 128 = 32K
+  - Attention: 4 heads × (3 projections) per layer = manageable
+  - Total: ~1.3M parameters = easy to fit in RAM
+
+===============================================================================
+⚠️ IMPORTANT NOTES
+===============================================================================
+
+✓ MPS Requirement
+  - Must have PyTorch with MPS support
+  - Check: python3 -c "import torch; print(torch.backends.mps.is_available())"
+  - If False, reinstall: pip install --upgrade torch
+
+✓ Memory Management
+  - Small batch size (32) by design
+  - If OOM errors: reduce batch_size in task3_training_loop.py
+  - 8GB RAM is tight - monitor during training
+
+✓ Training Data
+  - Sample tech_news.txt is very small
+  - For better results, use larger dataset
+  - Any text file works - just replace tech_news.txt
+
+✓ API Server
+  - Runs indefinitely with python3 task4_fastapi_deployment.py
+  - Stop with: Ctrl+C
+  - Default port: 8000 (change in code if needed)
+
+✓ Model Persistence
+  - Model saved after training as tech_slm_model.pth
+  - Can be loaded anytime via load_model() function
+  - No need to retrain unless you want to
+
+===============================================================================
+🚀 YOU'RE READY!
+===============================================================================
+
+Everything is set up and ready to use. Choose your path:
+
+FASTEST PATH (5 minutes to working API):
+  python3 quickstart.py
+
+LEARNING PATH (understand each step):
+  python3 train_slm.py
+
+DETAILED SETUP (if troubleshooting):
+  Read: SETUP_GUIDE.md
+
+QUICK REFERENCE (while working):
+  cat QUICK_REFERENCE.txt
+
+FULL DOCUMENTATION (complete guide):
+  Read: README.md
+
+Good luck! Questions? Check the README.md or SETUP_GUIDE.md.
+
+===============================================================================
